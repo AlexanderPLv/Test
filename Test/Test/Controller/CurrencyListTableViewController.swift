@@ -57,11 +57,12 @@ class CurrencyListTableViewController: UITableViewController {
     }
     
     fileprivate func getCurrencyList() {
-            networkManager.getCurrencyList { response in
+            networkManager.getCurrencyList { [weak self] response in
                 switch response {
                 case .failure(let error):
                     print(error.localizedDescription)
                 case .success(let response):
+                    guard let self = self else { return }
                     self.saveToStore(response)
                 }
             }
